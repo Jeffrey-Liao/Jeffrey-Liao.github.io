@@ -1,1 +1,5 @@
-{}
+{
+  "promptDelete": false,
+  "attachmentFolderPath": "Picture",
+  "newFileLocation": "current"
+}
