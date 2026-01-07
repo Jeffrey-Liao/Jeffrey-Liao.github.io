@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_sidebar.md",
+                "file": "C/C.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "_sidebar"
+              "title": "C"
             }
           }
         ],
@@ -228,12 +228,12 @@
   },
   "active": "5e3e3d3000c4c380",
   "lastOpenFiles": [
-    "_navbar.md",
+    "JAVA/JAVA.md",
+    "PrimedDB/PrimedDB.md",
     "_sidebar.md",
+    "_navbar.md",
     "README.md",
     "_coverpage.md",
-    "PrimedDB/PrimedDB.md",
-    "JAVA/JAVA.md",
     "C/C.md",
     "新建 文本文档.txt",
     "新建文件夹",
