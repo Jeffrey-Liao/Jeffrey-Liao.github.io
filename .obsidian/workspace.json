@@ -27,26 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PrimedDB/PrimedDB.md",
+                "file": "C/计算机系统.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PrimedDB"
-            }
-          },
-          {
-            "id": "86fdfe3a1c5c1bab",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_sidebar.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "_sidebar"
+              "title": "计算机系统"
             }
           },
           {
@@ -55,16 +41,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "C/C.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "C"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -228,25 +214,40 @@
   },
   "active": "5e3e3d3000c4c380",
   "lastOpenFiles": [
+    "C/计算机系统.md",
+    "互联网络通信/1 Overview.md",
+    "C/未命名.md",
+    "C/结构体和类设计.md",
     "C/C.md",
-    "JAVA/JAVA.md",
+    "C/编译与运行.md",
+    "C/指针和内存分配.md",
+    "C/程序执行结构.md",
+    "C/常见库函数.md",
+    "C/语言规则.md",
+    "_coverpage.md",
+    "C/().md",
+    "C/数据类型.md",
+    "README.md",
+    "_navbar.md",
     "PrimedDB/PrimedDB.md",
     "_sidebar.md",
-    "_navbar.md",
-    "README.md",
-    "_coverpage.md",
+    "互联网络通信/2 Overview2.md",
+    "互联网络通信/10. Transport Layer.md",
+    "互联网络通信/9. Network Layer （控制）.md",
+    "互联网络通信/8. Network Layer（IP protocol）.md",
+    "互联网络通信/7. Network layer （Overview）.md",
+    "互联网络通信/6. Data Link Layer （以太网）.md",
+    "互联网络通信/5. Data Link Layer(MAC).md",
+    "互联网络通信/4 Data Link layer(Transmission and error correction).md",
+    "互联网络通信/3 Physical Layer.md",
+    "互联网络通信",
     "新建 文本文档.txt",
     "新建文件夹",
-    "_coverpage.md.md",
-    "PrimedDB/未命名.md",
     "PrimedDB",
-    "C/C Welcome.md",
     "JAVA",
     "C",
     "index.html",
     "_config.yml",
-    "README.md.md",
-    "欢迎.md",
     "Picture"
   ]
 }
