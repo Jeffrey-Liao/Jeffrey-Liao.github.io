@@ -1,6 +1,6 @@
 {
   "promptDelete": false,
-  "attachmentFolderPath": "Picture",
+  "attachmentFolderPath": "./",
   "newFileLocation": "current",
   "alwaysUpdateLinks": true
 }

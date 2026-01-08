@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "e729d1496e402249",
+        "id": "1b39289e32022b5d",
         "type": "tabs",
         "children": [
           {
-            "id": "b0611df2f7969965",
+            "id": "7267cf500ce71b80",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -53,8 +53,8 @@
             "state": {
               "type": "search",
               "state": {
-                "query": " ",
-                "matchingCase": false,
+                "query": "",
+                "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": false,
                 "extraContext": false,
@@ -74,8 +74,7 @@
               "title": "书签"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -184,12 +183,14 @@
       "bases:创建新数据库": false
     }
   },
-  "active": "3758638cc0de79f2",
+  "active": "7267cf500ce71b80",
   "lastOpenFiles": [
+    "C/von.png",
+    "C/计算机系统.md",
+    "C/Pasted.md",
+    "C/图片路径.md",
     "C/C.md",
     "C/数据类型.md",
-    "C/计算机系统.md",
-    "Picture/Pasted image 20260108184836.png",
     "_config.yml",
     "新建 文本文档.txt",
     "README.md",
@@ -212,8 +213,6 @@
     "互联网络通信/9. Network Layer （控制）.md",
     "互联网络通信/8. Network Layer（IP protocol）.md",
     "互联网络通信/7. Network layer （Overview）.md",
-    "互联网络通信/6. Data Link Layer （以太网）.md",
-    "互联网络通信/5. Data Link Layer(MAC).md",
     "互联网络通信",
     "新建文件夹",
     "PrimedDB",
