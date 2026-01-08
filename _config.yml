@@ -1,0 +1,37 @@
+# _config.yml
+
+# === 基本信息 ===
+title: 你的网站标题
+baseurl: ""  # 如果你的项目是 username.github.io/repo-name，则填 "/repo-name"
+url: "https://jeffrey-liao.github.io"  # GitHub Pages URL（不含 baseurl）
+
+# === Jekyll 设置 ===
+theme: minima  # GitHub Pages 支持的主题（见下方列表）
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+
+# === Markdown 渲染器 ===
+markdown: kramdown
+highlighter: rouge
+
+# === kramdown 设置 ===
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+
+
+# === Excludes ===
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
