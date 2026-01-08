@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "C/C.md",
+                "file": "C/计算机系统.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "C"
+              "title": "计算机系统"
             }
           }
         ]
@@ -185,9 +185,9 @@
   },
   "active": "b0611df2f7969965",
   "lastOpenFiles": [
+    "C/C.md",
     "README.md",
     "C/计算机系统.md",
-    "C/C.md",
     "计算机系统.md",
     "互联网络通信/1 Overview.md",
     "C/未命名.md",
