@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "C/C.md",
+                "file": "C/计算机系统.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "C"
+              "title": "计算机系统"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": " ",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,7 +74,8 @@
               "title": "书签"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -183,10 +184,10 @@
       "bases:创建新数据库": false
     }
   },
-  "active": "b0611df2f7969965",
+  "active": "3758638cc0de79f2",
   "lastOpenFiles": [
-    "C/数据类型.md",
     "C/C.md",
+    "C/数据类型.md",
     "C/计算机系统.md",
     "Picture/Pasted image 20260108184836.png",
     "_config.yml",
