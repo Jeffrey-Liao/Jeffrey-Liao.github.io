@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "C/C.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "C"
             }
           }
         ]
@@ -185,6 +185,7 @@
   },
   "active": "b0611df2f7969965",
   "lastOpenFiles": [
+    "README.md",
     "C/计算机系统.md",
     "C/C.md",
     "计算机系统.md",
@@ -199,7 +200,6 @@
     "_coverpage.md",
     "C/().md",
     "C/数据类型.md",
-    "README.md",
     "_navbar.md",
     "PrimedDB/PrimedDB.md",
     "_sidebar.md",
