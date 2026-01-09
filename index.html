@@ -94,12 +94,30 @@
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
   <!-- gitalk支持-->
   <!--字数统计-->
-  <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
-  <script>
-    window.$docsify = {
-    disqus: 'shortname',
-    };
-    </script>
-    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/disqus.min.js"></script>
+  <div id="utterances-comments"></div>
+
+<script>
+window.$docsify = {
+  plugins: [
+    function(hook, vm) {
+      hook.doneEach(function() {
+        const container = document.getElementById('utterances-comments');
+        container.innerHTML = '';
+
+        const script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'yourname/your-repo');
+        script.setAttribute('issue-term', 'pathname');
+        script.setAttribute('label', 'comment');
+        script.setAttribute('theme', 'github-light');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        container.appendChild(script);
+      });
+    }
+  ]
+};
+</script>
 </body>
 </html>
