@@ -57,6 +57,8 @@
 12. Non-Subversion Rule
 >If a **system** has an interface that **provides access to low-level records**, then ==the interface must **not** be able to **subvert** the system and **bypass** security and integrity **constraints.**==
 	- 如果一个系统提供了访问**低级别记录**的接口，那么这个接口**不能绕过系统的安全性和完整性约束**。  换句话说：**即使能直接操作底层数据，也不能破坏规则**。
+
+
 # Oracle Database Architecture
 ## Oracle server
 ### 功能
@@ -81,6 +83,8 @@
 	2. **starts** several Oracle background **processes**.
 	3. This combination of the **SGA and the Oracle processes** is *called an Oracle instance*
 ![](pic/20260109182236.png)
+
+
 ### 启动
 - After starting an instance, 
 	1. the Oracle software **associates** the *instance with a specific database*. 
@@ -306,6 +310,8 @@ WHERE owner='NIKOVITS' AND table_name='DEPT';
 - `DBA_VIEWS` 可查看视图的原始SQL定义
 - 视图**不存储数据**，只**存储逻辑**
 - text中存储的就是`AS`连接的查询语句
+
+
 ### 创建
 ```SQL
 CREATE VIEW v1 AS
@@ -523,6 +529,8 @@ WHERE owner='NIKOVITS' AND created > sysdate - 1;
 | `SEGMENT_SPACE_MANAGEMENT` | 段空间管理（AUTO/MANUAL）           |
 - 查看表空间状态是否正常
 - 判断是否需要扩容
+
+
 ### 方法一：查询 `dba_tablespaces`
 ```SQL
 SELECT 
@@ -603,11 +611,14 @@ AUTOEXTEND ON;
 
 - `SYSTEM` 表空间（蓝色圆柱）→ 核心系统表空间
 - `INVENTORY` 表空间（黄色+灰色）→ 用户自定义表空间，可能已添加新数据文件
+
+
 ### 扩展数据库的四种方式：
 1. **创建新的表空间（Create a new tablespace）**
 2. **向现有表空间添加数据文件（Add a data file）**
 3. **增大现有数据文件的大小（Increase size of a data file）**
 4. **启用数据文件自动增长（Dynamic growth via AUTOEXTEND）**
+
 
 ### 实践操作
 ```SQL
@@ -718,6 +729,8 @@ DBMS 的查找步骤如下：
 CREATE TABLE t (field1 INT, field2 VARCHAR2(n));
 ```
 - 或者一个文件中混合存储多个表的数据
+
+
 ### 主要问题
 | 问题              | 描述                        |
 | --------------- | ------------------------- |

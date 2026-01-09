@@ -10,6 +10,26 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
   <!-- KaTeX CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <style>
+  /* 深色模式下的标题颜色（根据你的配置） */
+  @media (prefers-color-scheme: dark) {
+    h1 { color: #FFDA00 !important; }
+    h2 { color: #F99223 !important; }
+    h3 { color: #56A5FF !important; }
+    h4 { color: #F7E36B !important; }
+    h5 { color: #7EFF5E !important; }
+    h6 { color: #6C5BFF !important; }
+  }
+
+  /* 浅色模式（可选）——如果你也想定义浅色模式的颜色 */
+  @media (prefers-color-scheme: light) {
+    /* 你可以在这里定义浅色模式的颜色，例如：
+    h1 { color: #333; }
+    h2 { color: #555; }
+    ... 
+    */
+  }
+</style>
 </head>
 
 <body>
