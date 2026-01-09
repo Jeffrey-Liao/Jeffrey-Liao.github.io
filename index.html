@@ -27,16 +27,37 @@
       .markdown-section h4 { color: #6a0404 !important; }
       .markdown-section h5 { color: #156202 !important; }
       .markdown-section h6 { color: #6C5BFF !important; }
+      .markdown-section strong,b {
+        color: #fc0000 !important;
+      }
+      .markdown-section em,i {
+        color: #bf7402 !important;
+      }
+      .markdown-section blockquote {
+        color: #0f354c !important;
+        border-left: 4px solid #006efe !important;
+      }
   </style>
 </head>
 
 <body>
   <div id="app">加载中...</div>
-
+  
   <!-- Docsify 配置 -->
   <script>
+    
     window.$docsify = {
-      name: '每天起床第一件事<br>看看老公又整了什么活！',
+      markdown: {
+        renderer: {
+          // 重写 markdown-it 的文本渲染器
+          text: function(text, level) {
+            // 处理 ==高亮== 语法
+            text = text.replace(/==([^=]+)==/g, '<mark>$1</mark>');
+            return text;
+          }
+        }
+      },
+      name: '猜猜我藏了多少彩蛋?<br>爱你哦~❤️',
       coverpage: true,
       notFoundPage: true,
       relativePath: true,
@@ -63,8 +84,9 @@
         fontsize: '0.9em',
         color: 'rgb(90,90,90)',
         language: 'chinese'
-      }
+      },
     };
+
   </script>
 
   <!-- 核心依赖 -->
@@ -73,7 +95,7 @@
   <!-- KaTeX 支持 -->
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-
+  
   <!-- 在 Docsify 渲染完成后自动渲染 LaTeX -->
   <script>
     window.$docsify.plugins = [].concat(
