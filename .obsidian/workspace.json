@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_404.md",
+                "file": "_navbar.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "_404"
+              "title": "_navbar"
             }
           }
         ]
@@ -186,11 +186,13 @@
   },
   "active": "7267cf500ce71b80",
   "lastOpenFiles": [
+    "README.md",
+    "_navbar.md",
+    "_sidebar.md",
+    "_404.md",
     "数据库2/Oracle体系结构.md",
     "数据库2/数据库2.md",
-    "_404.md",
     "_coverpage.md",
-    "README.md",
     "().md",
     "Format.md",
     "C/C.md",
@@ -224,8 +226,6 @@
     "互联网络通信/Data Link layer.md",
     "互联网络通信/Data_Link_Layer_MAC.md",
     "互联网络通信/Network_Layer_Control.md",
-    "互联网络通信/Network_Layer_IP.md",
-    "互联网络通信/Network_layer_Overview.md",
     "C/pic",
     "互联网络通信/pic",
     "互联网络通信/新建文件夹",
