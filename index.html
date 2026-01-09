@@ -15,24 +15,12 @@
 
   <!-- ✅ 自定义样式：放在所有 CSS 之后 -->
   <style>
-      h1 { color: #000000 !important; }
-      h2 { color: #f67f00 !important; }
-      h3 { color: #56A5FF !important; }
-      h4 { color: #6a0404 !important; }
-      h5 { color: #156202 !important; }
-      h6 { color: #6C5BFF !important; }
-      .markdown-section h1 { color: #000000 !important; }
-      .markdown-section h2 { color: #f67f00 !important; }
-      .markdown-section h3 { color: #56A5FF !important; }
-      .markdown-section h4 { color: #6a0404 !important; }
-      .markdown-section h5 { color: #156202 !important; }
-      .markdown-section h6 { color: #6C5BFF !important; }
-      .markdown-section strong h1 { color: #000000 !important; }
-      .markdown-section strong h2 { color: #f67f00 !important; }
-      .markdown-section strong h3 { color: #56A5FF !important; }
-      .markdown-section strong h4 { color: #6a0404 !important; }
-      .markdown-section strong h5 { color: #156202 !important; }
-      .markdown-section h6 { color: #6C5BFF !important; }
+      .h1-custom { color: #000000 !important; }
+      .h2-custom { color: #f67f00 !important; }
+      .h3-custom { color: #56A5FF !important; }
+      .h4-custom { color: #6a0404 !important; }
+      .h5-custom { color: #156202 !important; }
+      .h6-custom { color: #6C5BFF !important; }
   </style>
 </head>
 
@@ -108,6 +96,55 @@
             utterances.appendChild(script);
           }
         });
+        hook.doneEach(function () {
+  var floatingToc = document.querySelector(".floating-toc");
+  if (!floatingToc) {
+    floatingToc = document.createElement("div");
+    floatingToc.className = "floating-toc";
+    document.body.appendChild(floatingToc);
+    var tocHeader = document.createElement("h2");
+    tocHeader.textContent = "目录";
+    floatingToc.appendChild(tocHeader);
+  }
+
+  floatingToc.innerHTML = "<h2>目录</h2>";
+  var currentUrl = window.location.href.split("?")[0];
+  var content = document.querySelector(".content");
+
+  if (content) {
+    var headers = content.querySelectorAll("h1, h2, h3");
+    if (headers.length > 1) {
+      floatingToc.style.display = "block";
+      var tocList = document.createElement("ul");
+      floatingToc.appendChild(tocList);
+      headers.forEach(function (header) {
+        var li = document.createElement("li");
+        var level = parseInt(header.tagName.substring(1)) - 1;
+        li.style.marginLeft = level * 20 + "px";
+
+        var anchorLink = document.createElement("a");
+        anchorLink.href = currentUrl + "#" + header.id;
+        anchorLink.textContent = header.textContent;
+        li.appendChild(anchorLink);
+        tocList.appendChild(li);
+      });
+    } else {
+      floatingToc.style.display = "none";
+    }
+
+    var anchors = document.querySelectorAll("h2[id],h3[id],h4[id]");
+    anchors.forEach(function (anchor) {
+      var fixAnchorDiv = document.createElement("div");
+      fixAnchorDiv.className = "fix-anchor";
+      fixAnchorDiv.id = anchor.id;
+      anchor.parentNode.insertBefore(fixAnchorDiv, anchor);
+      anchor.id = "";
+    });
+  } else {
+    floatingToc.style.display = "none";
+  }
+});
+
       }
     );
   </script>
