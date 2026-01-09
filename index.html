@@ -5,7 +5,7 @@
   <title>廖润康❤️毕小宇</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="个人知识库" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   
   <!-- Docsify 主题（只引入一次） -->
@@ -15,12 +15,18 @@
 
   <!-- ✅ 自定义样式：放在所有 CSS 之后 -->
   <style>
-      .h1-custom { color: #000000 !important; }
-      .h2-custom { color: #f67f00 !important; }
-      .h3-custom { color: #56A5FF !important; }
-      .h4-custom { color: #6a0404 !important; }
-      .h5-custom { color: #156202 !important; }
-      .h6-custom { color: #6C5BFF !important; }
+      h1 .anchor span { color: #000000 !important; }
+      h2 .anchor span { color: #f67f00 !important; }
+      h3 .anchor span { color: #56A5FF !important; }
+      h4 .anchor span { color: #6a0404 !important; }
+      h5 .anchor span { color: #156202 !important; }
+      h6 .anchor span { color: #6C5BFF !important; }
+      .markdown-section h1 { color: #000000 !important; }
+      .markdown-section h2 { color: #f67f00 !important; }
+      .markdown-section h3 { color: #56A5FF !important; }
+      .markdown-section h4 { color: #6a0404 !important; }
+      .markdown-section h5 { color: #156202 !important; }
+      .markdown-section h6 { color: #6C5BFF !important; }
   </style>
 </head>
 
@@ -30,8 +36,10 @@
   <!-- Docsify 配置 -->
   <script>
     window.$docsify = {
-      name: '每天起床第一件事,看看老公又整了什么活！',
+      name: '每天起床第一件事<br>看看老公又整了什么活！',
       coverpage: true,
+      notFoundPage: true,
+      relativePath: true,
       loadNavbar: true,
       sidebarDisplayLevel: 1,
       subMaxLevel: 3,
@@ -80,72 +88,8 @@
               { left: "\\(", right: "\\)", display: false }
             ],
             throwOnError: false
-          });
-
-          // Utterances 评论（可选）
-          const utterances = document.getElementById('utterances-comments');
-          if (utterances) {
-            utterances.innerHTML = '';
-            const script = document.createElement('script');
-            script.src = 'https://utteranc.es/client.js';
-            script.setAttribute('repo', 'yourname/your-repo'); // ⚠️ 替换为你的 GitHub 仓库
-            script.setAttribute('issue-term', 'pathname');
-            script.setAttribute('theme', 'github-light');
-            script.setAttribute('crossorigin', 'anonymous');
-            script.async = true;
-            utterances.appendChild(script);
-          }
-        });
-        hook.doneEach(function () {
-  var floatingToc = document.querySelector(".floating-toc");
-  if (!floatingToc) {
-    floatingToc = document.createElement("div");
-    floatingToc.className = "floating-toc";
-    document.body.appendChild(floatingToc);
-    var tocHeader = document.createElement("h2");
-    tocHeader.textContent = "目录";
-    floatingToc.appendChild(tocHeader);
-  }
-
-  floatingToc.innerHTML = "<h2>目录</h2>";
-  var currentUrl = window.location.href.split("?")[0];
-  var content = document.querySelector(".content");
-
-  if (content) {
-    var headers = content.querySelectorAll("h1, h2, h3");
-    if (headers.length > 1) {
-      floatingToc.style.display = "block";
-      var tocList = document.createElement("ul");
-      floatingToc.appendChild(tocList);
-      headers.forEach(function (header) {
-        var li = document.createElement("li");
-        var level = parseInt(header.tagName.substring(1)) - 1;
-        li.style.marginLeft = level * 20 + "px";
-
-        var anchorLink = document.createElement("a");
-        anchorLink.href = currentUrl + "#" + header.id;
-        anchorLink.textContent = header.textContent;
-        li.appendChild(anchorLink);
-        tocList.appendChild(li);
-      });
-    } else {
-      floatingToc.style.display = "none";
-    }
-
-    var anchors = document.querySelectorAll("h2[id],h3[id],h4[id]");
-    anchors.forEach(function (anchor) {
-      var fixAnchorDiv = document.createElement("div");
-      fixAnchorDiv.className = "fix-anchor";
-      fixAnchorDiv.id = anchor.id;
-      anchor.parentNode.insertBefore(fixAnchorDiv, anchor);
-      anchor.id = "";
-    });
-  } else {
-    floatingToc.style.display = "none";
-  }
-});
-
-      }
+          })
+        });      }
     );
   </script>
 
