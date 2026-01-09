@@ -1,7 +1,7 @@
 # _config.yml
 
 # === 基本信息 ===
-title: 你的网站标题
+title: Jeffrey Liao's Blog
 baseurl: ""  # 如果你的项目是 username.github.io/repo-name，则填 "/repo-name"
 url: "https://jeffrey-liao.github.io"  # GitHub Pages URL（不含 baseurl）
 
