@@ -1,5 +1,9 @@
 {
-  "cssTheme": "Obsidianite",
   "baseFontSizeAction": true,
-  "baseFontSize": 30
+  "baseFontSize": 22,
+  "cssTheme": "Blue Topaz",
+  "textFontFamily": "Cambria",
+  "monospaceFontFamily": "Consolas",
+  "theme": "obsidian",
+  "accentColor": "#4669d2"
 }
