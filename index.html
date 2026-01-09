@@ -12,6 +12,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <!-- 默认主题 -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 </head>
 
 <body>
@@ -24,7 +25,7 @@
             // 仓库地址，点击右上角的Github章鱼猫头像会跳转到此地址
             //repo: ,
             // 侧边栏支持，默认加载的是项目根目录下的_sidebar.md文件
-
+            
             sidebarDisplayLevel: 1,
             // 导航栏支持，默认加载的是项目根目录下的_navbar.md文件
             loadNavbar: true,
@@ -74,6 +75,8 @@
         }
         }
     </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <!-- MathJax -->
     <script src="//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="//cdn.jsdelivr.net/npm/docsify-latex@0"></script>
@@ -100,6 +103,7 @@
 window.$docsify = {
   plugins: [
     function(hook, vm) {
+      
       hook.doneEach(function() {
         const container = document.getElementById('utterances-comments');
         container.innerHTML = '';
@@ -114,6 +118,18 @@ window.$docsify = {
         script.async = true;
 
         container.appendChild(script);
+      });
+      hook.doneEach(function() {
+        // 自动渲染所有 LaTeX 公式
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },   // 行间公式
+            { left: "$", right: "$", display: false },    // 行内公式
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true }
+          ],
+          throwOnError: false
+        });
       });
     }
   ]
