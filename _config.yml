@@ -13,15 +13,16 @@ plugins:
   - jekyll-seo-tag
 
 
-# === Markdown 渲染器 ===
-markdown: kramdown
-highlighter: rouge
-
-# === kramdown 设置 ===
-kramdown:
-  input: GFM
-  hard_wrap: false
-  syntax_highlighter: rouge
+markdown: commonmark
+commonmark:
+  options:
+    footnotes: true
+    gfm_quirks: "all"
+  extensions:
+    - autolink
+    - strikethrough
+    - table
+    - tagfilter
 
 
 

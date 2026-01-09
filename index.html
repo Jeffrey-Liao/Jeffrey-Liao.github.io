@@ -119,18 +119,6 @@ window.$docsify = {
 
         container.appendChild(script);
       });
-      hook.doneEach(function() {
-        // 自动渲染所有 LaTeX 公式
-        renderMathInElement(document.body, {
-          delimiters: [
-            { left: "$$", right: "$$", display: true },   // 行间公式
-            { left: "$", right: "$", display: false },    // 行内公式
-            { left: "\\(", right: "\\)", display: false },
-            { left: "\\[", right: "\\]", display: true }
-          ],
-          throwOnError: false
-        });
-      });
     }
   ]
 };
