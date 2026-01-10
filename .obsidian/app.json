@@ -11,5 +11,7 @@
   "newFileLocation": "current",
   "strictLineBreaks": false,
   "newLinkFormat": "relative",
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "attachmentFolderPath": "./pic",
+  "useMarkdownLinks": true
 }
