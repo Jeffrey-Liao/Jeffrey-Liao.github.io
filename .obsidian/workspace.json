@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "数据库2/重点.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -186,19 +186,20 @@
   },
   "active": "7267cf500ce71b80",
   "lastOpenFiles": [
+    "数据库2/sample.md",
+    "数据库2/重点.md",
+    "数据库2/sample_quiz.html",
     "数据库2/pic/Pasted image 20260110213826.png",
     "数据库2/pic/Pasted image 20260110210123.png",
     "数据库2/pic/Pasted image 20260110210111.png",
     "数据库2/pic/Pasted image 20251216145300.png",
     "数据库2/数据库2.md",
-    "数据库2/重点.md",
     "数据库2/pic/Pasted image 20260110173230.png",
     "数据库2/pic/Pasted image 20251209162242.png",
     "数据库2/pic/Pasted image 20251209161915.png",
     "数据库2/pic/Pasted image 20260110164906.png",
     "数据库2/pic/Pasted image 20260110163852.png",
     "数据库2/pic/Pasted image 20260110163739.png",
-    "数据库2/pic/Pasted image 20260110163715.png",
     "数据库2/Oracle体系结构.md",
     "数据库2/物理存储.md",
     "_navbar.md",
@@ -225,12 +226,10 @@
     "C/语言规则.md",
     "C/图片路径.md",
     "互联网络通信/Overview.md",
-    "互联网络通信/Data_Link_Layer_Ethernet.md",
     "C/pic",
     "互联网络通信/pic",
     "互联网络通信/新建文件夹",
     "_config.yml",
-    "新建 文本文档.txt",
-    "互联网络通信"
+    "新建 文本文档.txt"
   ]
 }

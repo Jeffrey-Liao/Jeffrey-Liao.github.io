@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数据库重点知识测验</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .quiz-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .question {
+            padding: 1.25rem;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+        .question:last-child { border-bottom: none; }
+        .question:hover { background-color: #f8fbff; }
+        .q-number {
+            display: inline-block;
+            width: 2.2rem;
+            height: 2.2rem;
+            background: #4a6491;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 2.2rem;
+            font-weight: bold;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        .q-content {
+            margin-left: 0.75rem;
+        }
+        .q-text {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+        }
+        .options {
+            margin-left: 2.5rem;
+        }
+        .option {
+            margin: 0.5rem 0;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: flex-start;
+        }
+        .option:hover {
+            background-color: #f0f7ff;
+        }
+        .option input {
+            margin-top: 0.35rem;
+            margin-right: 0.5rem;
+            transform: scale(1.1);
+        }
+        .option label {
+            user-select: none;
+            line-height: 1.4;
+        }
+        .explanation {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background-color: #f0f7ff;
+            border-left: 3px solid #4a6491;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.95rem;
+            display: none;
+        }
+        .explanation.show {
+            display: block;
+        }
+        .btn-group {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+        button {
+            background: #4a6491;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.05rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            transition: background 0.2s;
+        }
+        button:hover:not(:disabled) {
+            background: #2c3e50;
+        }
+        button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: #e8f4f8;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .score {
+            font-size: 2.2rem;
+            color: #27ae60;
+            margin: 0.5rem 0;
+        }
+        .feedback {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+        .correct {
+            color: #27ae60;
+        }
+        .incorrect {
+            color: #e74c3c;
+        }
+        .highlight {
+            background-color: #fff9c4;
+            padding: 0 4px;
+            border-radius: 3px;
+        }
+        @media (max-width: 600px) {
+            body { padding: 0.5rem; }
+            .q-number { width: 2rem; height: 2rem; line-height: 2rem; }
+            .options { margin-left: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📊 数据库重点知识测验</h1>
+        <p class="subtitle">共50题｜覆盖存储结构、索引、分区、Codd 12律、日志、优化器等全部核心知识点</p>
+    </header>
+
+    <main class="quiz-container" id="quiz">
+        <!-- Questions will be injected here by JS -->
+    </main>
+
+    <div class="btn-group">
+        <button id="submitBtn">✅ 提交答卷</button>
+        <button id="resetBtn">↺ 重新作答</button>
+    </div>
+
+    <div class="result" id="result" style="display:none;">
+        <h2>您的成绩</h2>
+        <div class="score"><span id="scoreNum">0</span>/50</div>
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <script>
+        // === 题目数据（由 sample.md 严格生成）===
+        const questions = [
+            {
+                "q": "在Oracle体系结构中，Table Space直接包含的逻辑存储单元是？",
+                "options": [
+                    "Data Blocks",
+                    "Extents",
+                    "Segments",
+                    "Pages"
+                ],
+                "answer": 2,
+                "explanation": "Table Space包含Segments。原文：‘Table Space包含若干个Segments’。"
+            },
+            {
+                "q": "关于Segment的描述，正确的是？",
+                "options": [
+                    "Segment可跨多个Table Space分配",
+                    "每个表对应一个Segment存放其全部数据",
+                    "Segment是I/O操作的最小单位",
+                    "Segment仅用于存储索引对象"
+                ],
+                "answer": 1,
+                "explanation": "Segment与表一一对应，存放其全部数据。原文：‘每个表对应一个段（Segment），用于存放该表的所有数据’。"
+            },
+            {
+                "q": "Extent的物理存储约束是？",
+                "options": [
+                    "必须属于同一Table Space",
+                    "必须属于同一Segment",
+                    "必须位于单个Data File内",
+                    "可跨越多个Data Files"
+                ],
+                "answer": 2,
+                "explanation": "Extent必须位于单个Data File内。原文：‘每个 extent 必须位于一个 data file 内（不能跨文件）’。"
+            },
+            {
+                "q": "Data Block在物理层面通常与什么一一对应？",
+                "options": [
+                    "Page",
+                    "Sector",
+                    "Disk Block",
+                    "Cluster"
+                ],
+                "answer": 2,
+                "explanation": "Data Block与Disk Block一一对应。原文：‘Data Block 一般与Disk Block一一对应’。"
+            },
+            {
+                "q": "Oracle标准物理存储层级关系是？",
+                "options": [
+                    "Table Space → Segment → Extent → Data Block",
+                    "Segment → Table Space → Extent → Data Block",
+                    "Data Block → Extent → Segment → Table Space",
+                    "Extent → Segment → Table Space → Data Block"
+                ],
+                "answer": 0,
+                "explanation": "标准层级：Table Space → Segment → Extent → Data Block。"
+            },
+            {
+                "q": "ALL_ 视图反映的信息范围是？",
+                "options": [
+                    "当前用户拥有的全部对象",
+                    "当前用户有权访问的所有对象",
+                    "数据库全局所有对象",
+                    "系统预定义的内置对象"
+                ],
+                "answer": 1,
+                "explanation": "ALL_视图覆盖当前用户有权访问的所有对象。原文：‘包含当前用户有权限访问的所有对象的信息’。"
+            },
+            {
+                "q": "USER_ 与 ALL_ 视图的核心区别在于？",
+                "options": [
+                    "USER_ 包含更多元数据列",
+                    "USER_ 限于自有对象，ALL_ 包含授权访问对象",
+                    "ALL_ 视图默认不可读",
+                    "USER_ 需显式授权才能查询"
+                ],
+                "answer": 1,
+                "explanation": "USER_限于自有对象，ALL_扩展至授权访问对象。原文明确区分二者范围。"
+            },
+            {
+                "q": "访问DBA_ 视图通常要求？",
+                "options": [
+                    "SELECT ANY TABLE权限",
+                    "CREATE SESSION权限",
+                    "DBA角色或同等高权限",
+                    "CONNECT角色"
+                ],
+                "answer": 2,
+                "explanation": "DBA_视图需DBA角色等高权限。原文：‘访问这些视图通常需要额外的权限，如DBA角色’。"
+            },
+            {
+                "q": "查询当前用户所建表的列定义，应优先使用？",
+                "options": [
+                    "DBA_TAB_COLUMNS",
+                    "ALL_TAB_COLUMNS",
+                    "USER_TAB_COLUMNS",
+                    "V$TABLES"
+                ],
+                "answer": 2,
+                "explanation": "USER_TAB_COLUMNS专用于当前用户表的列定义查询，最精准。"
+            },
+            {
+                "q": "不属于Oracle标准数据字典视图前缀的是？",
+                "options": [
+                    "ALL_",
+                    "USER_",
+                    "SYS_",
+                    "DBA_"
+                ],
+                "answer": 2,
+                "explanation": "SYS_非标准数据字典前缀；标准为ALL_/USER_/DBA_。"
+            },
+            {
+                "q": "Heap File最本质的组织特征是？",
+                "options": [
+                    "记录按主键升序排列",
+                    "记录按哈希值聚类存储",
+                    "数据追加写入，无序无索引",
+                    "所有记录存于同一Block"
+                ],
+                "answer": 2,
+                "explanation": "Heap File本质：追加写入、无序、无索引。原文：‘数据直接追加到文件末尾，无排序、无索引’。"
+            },
+            {
+                "q": "Heap File插入新记录的时间复杂度为？",
+                "options": [
+                    "O(n)",
+                    "O(log n)",
+                    "O(1)",
+                    "O(n²)"
+                ],
+                "answer": 2,
+                "explanation": "插入为O(1)，因直接追加。原文：‘新记录直接插入到文件末尾...插入操作非常快（O(1)）’。"
+            },
+            {
+                "q": "Heap File中等值查询的平均I/O成本约为？",
+                "options": [
+                    "1次读取",
+                    "一半页数读取",
+                    "全部页数读取",
+                    "log₂(页数)次读取"
+                ],
+                "answer": 1,
+                "explanation": "等值查询平均读取一半页。原文：‘平均读取一半的页才能找到目标记录’。"
+            },
+            {
+                "q": "Sorted File中，决定记录物理顺序的字段称为？",
+                "options": [
+                    "哈希键",
+                    "排序键字段",
+                    "排序字段",
+                    "主键"
+                ],
+                "answer": 2,
+                "explanation": "决定物理顺序的字段称排序字段（Ordering Field）。原文定义。"
+            },
+            {
+                "q": "若Sorted File按Empno排序且Empno唯一，则Empno是？",
+                "options": [
+                    "哈希键",
+                    "排序键字段",
+                    "外键",
+                    "索引字段"
+                ],
+                "answer": 1,
+                "explanation": "排序字段若为唯一键，则称排序键字段（Ordering Key Field）。原文举例明确。"
+            },
+            {
+                "q": "Sorted File支持高效范围查询的根本原因是？",
+                "options": [
+                    "内置B+树加速定位",
+                    "记录物理有序，支持顺序扫描",
+                    "位图索引辅助过滤",
+                    "数据自动分区存储"
+                ],
+                "answer": 1,
+                "explanation": "物理有序使范围查询可顺序扫描起始位置后连续页。"
+            },
+            {
+                "q": "Hashed File中定位记录依赖的关键机制是？",
+                "options": [
+                    "二分查找算法",
+                    "哈希函数计算桶号",
+                    "线性遍历搜索",
+                    "B+树路径导航"
+                ],
+                "answer": 1,
+                "explanation": "定位依赖哈希函数计算桶号。原文：‘通过哈希函数将记录分配到不同的桶中’。"
+            },
+            {
+                "q": "多个记录映射到同一桶的现象称为？",
+                "options": [
+                    "冲突（Collision）",
+                    "溢出（Overflow）",
+                    "分裂（Split）",
+                    "合并（Merge）"
+                ],
+                "answer": 0,
+                "explanation": "多记录哈希到同一桶即冲突（collision）。原文：‘当多个记录哈希到同一个桶时，会发生冲突’。"
+            },
+            {
+                "q": "Hashed File冲突处理方法中，不包括？",
+                "options": [
+                    "使用溢出页",
+                    "构建溢出链表",
+                    "动态重哈希",
+                    "二分查找定位"
+                ],
+                "answer": 3,
+                "explanation": "二分查找属Sorted File特性，非Hashed File冲突解法。"
+            },
+            {
+                "q": "Hashed File最适合的查询类型是？",
+                "options": [
+                    "WHERE salary BETWEEN 3000 AND 5000",
+                    "WHERE name LIKE 'A%'",
+                    "WHERE empno = 101",
+                    "ORDER BY name"
+                ],
+                "answer": 2,
+                "explanation": "Hashed File专为等值查询优化，平均O(1)。原文：‘查找效率非常高（平均时间复杂度接近 O(1)）’。"
+            },
+            {
+                "q": "Bitmap索引适用的数据列特征是？",
+                "options": [
+                    "高基数（如主键）",
+                    "低基数（如性别）",
+                    "大文本字段",
+                    "数值型主键"
+                ],
+                "answer": 1,
+                "explanation": "Bitmap索引适合低基数列（如性别、状态）。原文表格及上下文均体现此点。"
+            },
+            {
+                "q": "Bitmap中对两条件执行AND操作，等价于？",
+                "options": [
+                    "位图OR运算",
+                    "位图XOR运算",
+                    "位图AND运算",
+                    "位图NOT运算"
+                ],
+                "answer": 2,
+                "explanation": "AND操作对应位图按位AND。原文表格示例展示AND获得where结果。"
+            },
+            {
+                "q": "REGION='east'位图[1,0,0,0,0,0]与REGION='central'[0,1,1,0,1,1]做OR运算结果是？",
+                "options": [
+                    "[1,1,1,0,1,1]",
+                    "[0,0,0,0,0,0]",
+                    "[1,0,0,0,0,0]",
+                    "[0,1,1,0,1,1]"
+                ],
+                "answer": 0,
+                "explanation": "OR运算：[1,0,0,0,0,0] ∨ [0,1,1,0,1,1] = [1,1,1,0,1,1]。"
+            },
+            {
+                "q": "Bitmap索引在OLAP中广泛应用的主因是？",
+                "options": [
+                    "支持高频DML操作",
+                    "空间紧凑且布尔运算快",
+                    "原生支持范围查询",
+                    "适合高并发事务处理"
+                ],
+                "answer": 1,
+                "explanation": "Bitmap索引空间小、布尔运算快，适合OLAP分析。原文隐含此优势。"
+            },
+            {
+                "q": "Bitmap索引效率最低的操作是？",
+                "options": [
+                    "WHERE status = 'single'",
+                    "WHERE status IN ('single','married')",
+                    "WHERE status = 'single' AND region = 'east'",
+                    "UPDATE SET status = 'divorced'"
+                ],
+                "answer": 3,
+                "explanation": "UPDATE需更新多个位图块，效率极低，属公认短板。"
+            },
+            {
+                "q": "B+树所有叶子节点位于？",
+                "options": [
+                    "不同深度层次",
+                    "同一最高层",
+                    "同一最低层",
+                    "随机分布层级"
+                ],
+                "answer": 2,
+                "explanation": "所有叶子节点位于同一最低层。原文：‘All leaves at same lowest level’。"
+            },
+            {
+                "q": "B+树叶节点指针直接指向？",
+                "options": [
+                    "父节点地址",
+                    "子节点地址",
+                    "数据记录或ROWID",
+                    "下一叶节点地址"
+                ],
+                "answer": 2,
+                "explanation": "叶节点指针指向数据记录或ROWID。原文：‘Pointers in leaves point to records’。"
+            },
+            {
+                "q": "若非叶节点最大键数为n，其最小指针数为？",
+                "options": [
+                    "⌊(n+1)/2⌋",
+                    "⌈(n+1)/2⌉",
+                    "n",
+                    "1"
+                ],
+                "answer": 1,
+                "explanation": "非叶节点最小指针数 = ⌈(n+1)/2⌉。原文：‘非叶节点：⌈(n+1)/2⌉ pointers’。"
+            },
+            {
+                "q": "若叶节点最大键数为n，其最小键数为？",
+                "options": [
+                    "⌊(n+1)/2⌋",
+                    "⌈(n+1)/2⌉ - 1",
+                    "⌊(n+1)/2⌋",
+                    "1"
+                ],
+                "answer": 0,
+                "explanation": "叶节点最小键数量 = ⌊(n+1)/2⌋。原文表格明确标注‘最小键数量’列为⌊(n+1)/2⌋。"
+            },
+            {
+                "q": "B+树分裂时，提升至父节点的键是？",
+                "options": [
+                    "最小键值",
+                    "最大键值",
+                    "中间位置键值",
+                    "随机选取键值"
+                ],
+                "answer": 2,
+                "explanation": "分裂时取中间键（下标⌊n/2⌋）提升至父节点。原文：‘找$n/2$下标的键提到父节点中’。"
+            },
+            {
+                "q": "B+树删除后叶节点键数不足时，首选策略是？",
+                "options": [
+                    "直接删除该节点",
+                    "与兄弟节点合并",
+                    "向兄弟节点借键",
+                    "提升父节点键值"
+                ],
+                "answer": 2,
+                "explanation": "删除后键数不足，首选向兄弟借键（re-distribution）。原文：‘删除后需要借节点’。"
+            },
+            {
+                "q": "B+树非叶节点指针数与键数的关系是？",
+                "options": [
+                    "指针数 = 键数",
+                    "指针数 = 键数 + 1",
+                    "指针数 = 键数 - 1",
+                    "无确定关系"
+                ],
+                "answer": 1,
+                "explanation": "非叶节点指针数 = 键数 + 1。原文：‘度(n)：为节点的最大键数量；指针数量：n+1’。"
+            },
+            {
+                "q": "B+树与B树的本质区别是？",
+                "options": [
+                    "B+树内部节点存数据，B树只存索引",
+                    "B+树数据全在叶子，B树数据可分布于内部节点",
+                    "B+树不支持范围查询",
+                    "B树更适合磁盘I/O"
+                ],
+                "answer": 1,
+                "explanation": "B+树数据全在叶子节点，B树数据可分布于内部节点。根本区别。"
+            },
+            {
+                "q": "‘INDEX RANGE SCAN’适用于？",
+                "options": [
+                    "唯一索引等值查询",
+                    "范围查询或非唯一索引等值查询",
+                    "全表扫描操作",
+                    "位图索引扫描"
+                ],
+                "answer": 1,
+                "explanation": "INDEX RANGE SCAN用于范围查询或非唯一索引等值查询。原文表格明确对比。"
+            },
+            {
+                "q": "执行计划出现‘INDEX UNIQUE SCAN’表明？",
+                "options": [
+                    "使用非唯一索引等值查询",
+                    "使用唯一索引等值查询，结果≤1行",
+                    "使用位图索引",
+                    "使用哈希索引"
+                ],
+                "answer": 1,
+                "explanation": "INDEX UNIQUE SCAN用于唯一索引等值查询，结果≤1行。原文：‘等值查询（=）’、‘最多1行’。"
+            },
+            {
+                "q": "Ordinary table的数据组织方式是？",
+                "options": [
+                    "按主键排序存储",
+                    "按哈希值分布存储",
+                    "无序集合（heap）",
+                    "按时间分区存储"
+                ],
+                "answer": 2,
+                "explanation": "Ordinary table即heap-organized，数据以无序集合方式存储。原文表格第一行。"
+            },
+            {
+                "q": "Partitioned table的优势不包括？",
+                "options": [
+                    "提升查询性能",
+                    "增强管理便利性",
+                    "减少磁盘空间占用",
+                    "支持并行操作"
+                ],
+                "answer": 2,
+                "explanation": "分区不减少磁盘空间，反而可能增加元数据开销；其优势是性能、管理性、并行性。"
+            },
+            {
+                "q": "基于列值范围的分区类型是？",
+                "options": [
+                    "Hash",
+                    "List",
+                    "Range",
+                    "Composite"
+                ],
+                "answer": 2,
+                "explanation": "Range分区基于列值范围。原文表格明确。"
+            },
+            {
+                "q": "Hash分区实现行均匀分布的机制是？",
+                "options": [
+                    "排序算法",
+                    "哈希函数",
+                    "位图算法",
+                    "B+树算法"
+                ],
+                "answer": 1,
+                "explanation": "Hash分区使用哈希函数均匀分布行。原文：‘Uses hash function to distribute rows evenly’。"
+            },
+            {
+                "q": "List分区适用的典型场景是？",
+                "options": [
+                    "连续日期范围",
+                    "离散地区代码（如EU, NA）",
+                    "高频更新列",
+                    "大文本字段"
+                ],
+                "answer": 1,
+                "explanation": "List分区用于离散值映射，如region IN ('EU', 'NA')。原文表格明确。"
+            },
+            {
+                "q": "$V(R,A)$在查询代价模型中表示？",
+                "options": [
+                    "R中A属性的总记录数",
+                    "R中A属性的平均长度",
+                    "R中A属性的唯一值数量",
+                    "R中A属性的空值数量"
+                ],
+                "answer": 2,
+                "explanation": "$V(R,A)$定义为R中A属性的唯一值数量。原文：‘$V(R,A)$是A中唯一的数据的数量’。"
+            },
+            {
+                "q": "若T(R)=1000，V(R,A)=10，A为非键属性，则SC(R,A)≈？",
+                "options": [
+                    "1",
+                    "10",
+                    "100",
+                    "1000"
+                ],
+                "answer": 2,
+                "explanation": "$SC(R,A) = T_R / V(R,A) = 1000 / 10 = 100$。原文公式：‘SC(R, A)=$T_R / V(R,A)$’。"
+            },
+            {
+                "q": "Nested Loop Join的最优I/O代价是？",
+                "options": [
+                    "$T_R * B_S + B_R$",
+                    "$B_R + B_S$",
+                    "$B_R * B_S + B_R$",
+                    "$2*(B_R+B_S) + (B_R+B_S)$"
+                ],
+                "answer": 1,
+                "explanation": "Nested Loop Join最优代价为$B_R + B_S$。原文：‘Best: $B_R+B_S$’。"
+            },
+            {
+                "q": "Sort-Merge Join的总代价公式是？",
+                "options": [
+                    "$B_R + B_S$",
+                    "$cost\:of\:sorting + B_S + B_R$",
+                    "$B_R + T_R * c$",
+                    "$2*(B_R+B_S)$"
+                ],
+                "answer": 1,
+                "explanation": "Sort-Merge代价 = 排序代价 + $B_S + B_R$。原文公式明确。"
+            },
+            {
+                "q": "CBO选择执行计划的核心依据是？",
+                "options": [
+                    "预定义规则集",
+                    "SQL语句长度",
+                    "统计信息（statistics）",
+                    "索引数量"
+                ],
+                "answer": 2,
+                "explanation": "CBO基于统计信息估算代价。原文：‘基于统计信息（statistics）估算不同执行计划的‘代价’（cost）’。"
+            },
+            {
+                "q": "Information Rule强调的核心原则是？",
+                "options": [
+                    "所有数据（含元数据）必须以表形式存储",
+                    "所有数据必须加密存储",
+                    "所有数据必须有备份副本",
+                    "所有数据必须建立索引"
+                ],
+                "answer": 0,
+                "explanation": "第一定律：所有数据（含元数据）必须以表形式存储。原文：‘Everything in a database must be stored in a table format’。"
+            },
+            {
+                "q": "Guaranteed Access Rule要求的访问三元组是？",
+                "options": [
+                    "表名 + 外键 + 列名",
+                    "表名 + 主键（行值） + 属性名（列值）",
+                    "数据库名 + 用户名 + 表名",
+                    "索引名 + 键值 + 页号"
+                ],
+                "answer": 1,
+                "explanation": "第二定律：通过表名、主键（行值）、属性名（列值）保证访问。原文：‘combination of *table-name*, *primary-key* (row value), and *attribute-name* (column value)’。"
+            },
+            {
+                "q": "NULL值必须被如何处理？",
+                "options": [
+                    "全部忽略",
+                    "系统化且统一处理",
+                    "强制转换为0",
+                    "强制转换为空字符串"
+                ],
+                "answer": 1,
+                "explanation": "第三定律：NULL必须系统化、统一处理。原文：‘must be given a systematic and uniform treatment’。"
+            },
+            {
+                "q": "Active Online Catalog要求结构元数据存储于？",
+                "options": [
+                    "操作系统文件",
+                    "数据字典（data dictionary）",
+                    "应用程序配置文件",
+                    "备份归档文件"
+                ],
+                "answer": 1,
+                "explanation": "第四定律：结构描述存储于数据字典（data dictionary）。原文：‘stored in an online catalog, known as data dictionary’。"
+            },
+            {
+                "q": "Non-Subversion Rule禁止的行为是？",
+                "options": [
+                    "低级接口绕过安全与完整性约束",
+                    "用户不使用SQL访问数据库",
+                    "索引未设置唯一性约束",
+                    "日志文件未加密存储"
+                ],
+                "answer": 0,
+                "explanation": "第十二定律：低级接口不能绕过安全与完整性约束。原文：‘the interface must not be able to subvert the system and bypass security and integrity constraints’。"
+            }
+        ];
+
+        // === DOM & Logic ===
+        const quizEl = document.getElementById('quiz');
+        const submitBtn = document.getElementById('submitBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const resultEl = document.getElementById('result');
+        const scoreNumEl = document.getElementById('scoreNum');
+        const feedbackEl = document.getElementById('feedback');
+
+        // Render questions
+        questions.forEach((q, idx) => {
+            const qEl = document.createElement('div');
+            qEl.className = 'question';
+            qEl.innerHTML = `
+                <div style="display:flex;align-items:flex-start;">
+                    <div class="q-number">${idx + 1}</div>
+                    <div class="q-content">
+                        <div class="q-text">${q.q}</div>
+                        <div class="options">
+                            ${q.options.map((opt, i) => `
+                                <label class="option">
+                                    <input type="radio" name="q${idx}" value="${i}" />
+                                    <span>${opt}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                        <div class="explanation">💡 ${q.explanation}</div>
+                    </div>
+                </div>
+            `;
+            quizEl.appendChild(qEl);
+        });
+
+        // Toggle explanation on click
+        document.querySelectorAll('.q-content').forEach((el, idx) => {
+            el.addEventListener('click', () => {
+                const exp = el.querySelector('.explanation');
+                if (exp) exp.classList.toggle('show');
+            });
+        });
+
+        // Submit handler
+        submitBtn.addEventListener('click', () => {
+            let score = 0;
+            const explanations = document.querySelectorAll('.explanation');
+            
+            questions.forEach((q, idx) => {
+                const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+                const optEl = selected ? selected.closest('.option') : null;
+                
+                // Reset previous highlights
+                explanations[idx].classList.remove('correct', 'incorrect');
+                if (optEl) optEl.style.backgroundColor = '';
+                
+                if (selected && parseInt(selected.value) === q.answer) {
+                    score++;
+                    if (optEl) optEl.style.backgroundColor = '#e8f5e9';
+                    explanations[idx].classList.add('correct');
+                } else if (selected) {
+                    if (optEl) optEl.style.backgroundColor = '#ffebee';
+                    explanations[idx].classList.add('incorrect');
+                }
+            });
+
+            // Show result
+            scoreNumEl.textContent = score;
+            feedbackEl.innerHTML = score >= 45 ? 
+                '🎉 优秀！掌握全面，概念扎实。' : 
+                score >= 35 ? 
+                '👍 良好！核心知识点已掌握，细节可加强。' : 
+                score >= 25 ? 
+                '⚠️ 加油！建议重读《重点.md》对应章节。' : 
+                '📚 建议系统复习全部基础概念。';
+            
+            resultEl.style.display = 'block';
+            
+            // Scroll to result
+            resultEl.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Reset handler
+        resetBtn.addEventListener('click', () => {
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            document.querySelectorAll('.explanation').forEach(e => e.classList.remove('show', 'correct', 'incorrect'));
+            document.querySelectorAll('.option').forEach(o => o.style.backgroundColor = '');
+            resultEl.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
