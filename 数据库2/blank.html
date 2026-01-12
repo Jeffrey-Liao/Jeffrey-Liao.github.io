@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据库知识填空测验</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .instructions {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .question-text {
+            margin-bottom: 15px;
+        }
+        
+        .blank {
+            display: inline-block;
+            width: 200px;
+            height: 30px;
+            border: 2px solid #3498db;
+            border-radius: 4px;
+            margin: 0 5px;
+            padding: 5px;
+            font-size: 16px;
+            text-align: center;
+            background-color: #fff;
+        }
+        
+        .blank.correct {
+            background-color: #27ae60;
+            color: white;
+            border-color: #219653;
+        }
+        
+        .blank.incorrect {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #c0392b;
+        }
+        
+        .explanation {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e8f4f8;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .blank {
+                width: 150px;
+                height: 25px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" style="display:none;" id="top-anchor">Home</a>
+    <div class="container">
+        <h1>数据库知识填空测验</h1>
+        
+        <div class="instructions">
+            <h2>说明</h2>
+            <p>本测验包含80道填空题，涵盖数据库核心知识点，特别侧重于Codd第五律（Comprehensive Data Sub-Language Rule）和其他重要概念。</p>
+            <p>每道题有一个或多个空白需要填写。请在空白处填写正确的答案。</p>
+            <p>提交后，系统将自动评分并为每道题提供详细解析。</p>
+        </div>
+        
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div id="quizContainer">
+            <!-- 题目将通过JavaScript动态生成 -->
+        </div>
+        
+        <div class="results" id="results">
+            <h2>测验结果</h2>
+            <div class="score" id="score">得分：0/80</div>
+            <div class="feedback" id="feedback"></div>
+            <button class="btn" onclick="resetQuiz()">重新测验</button>
+        </div>
+        
+        <button class="btn" id="submitBtn" onclick="submitQuiz()">提交测验</button>
+    </div>
+
+    <script>
+        // 填空题数据 - 80道题目
+        const questions = [
+            {
+                "number": 1,
+                "question": "在Oracle数据库中，Table Space包含若干个______。",
+                "answer": "Segments",
+                "explanation": "Table Space是Oracle中最大的逻辑存储单元，包含若干个Segments。Segments由Extents组成，Extents由Data Blocks组成。"
+            },
+            {
+                "number": 2,
+                "question": "每个表在Oracle中对应一个______，用于存放该表的所有数据。",
+                "answer": "Segment",
+                "explanation": "每个表对应一个Segment，用于存放该表的所有数据。Table Space包含多个Segments，而每个Segment又包含多个Extents。"
+            },
+            {
+                "number": 3,
+                "question": "每个extent必须位于一个______内，不能跨文件。",
+                "answer": "data file",
+                "explanation": "每个extent必须位于一个data file内，不能跨文件。Extents由若干个Data Blocks组成，而不是Segments。"
+            },
+            {
+                "number": 4,
+                "question": "Data Block一般与______一一对应，这是Oracle数据库中最小的I/O单位。",
+                "answer": "Disk Block",
+                "explanation": "Data Block一般与Disk Block一一对应，这是Oracle数据库中最小的I/O单位。"
+            },
+            {
+                "number": 5,
+                "question": "`ALL_`视图包含当前用户有权限访问的______对象的信息。",
+                "answer": "所有",
+                "explanation": "`ALL_`视图包含当前用户有权限访问的所有对象的信息，无论这些对象是否为当前用户所有。"
+            },
+            {
+                "number": 6,
+                "question": "`USER_`视图仅包含当前用户所拥有的______的信息。",
+                "answer": "对象",
+                "explanation": "`USER_`视图仅包含当前用户所拥有的对象的信息，提供了一个狭窄的视角，专注于用户的自有资源。"
+            },
+            {
+                "number": 7,
+                "question": "访问`DBA_`视图通常需要______角色。",
+                "answer": "DBA",
+                "explanation": "访问`DBA_`视图通常需要DBA角色，因为它们提供了数据库中所有对象的全面视图。"
+            },
+            {
+                "number": 8,
+                "question": "Heap File的数据直接追加到文件末尾，无______、无索引。",
+                "answer": "排序",
+                "explanation": "Heap File是最简单的文件组织方式，数据直接追加到文件末尾，没有排序也没有索引。"
+            },
+            {
+                "number": 9,
+                "question": "Heap File的插入操作时间复杂度是______。",
+                "answer": "O(1)",
+                "explanation": "Heap File的插入操作非常快，因为新记录直接插入到文件末尾，无需移动其他记录，时间复杂度为O(1)。"
+            },
+            {
+                "number": 10,
+                "question": "Sorted files由于记录有序，可以使用______查找，时间复杂度为O(log n)。",
+                "answer": "二分",
+                "explanation": "Sorted files由于记录有序，可以使用二分查找，时间复杂度为O(log n)，远快于Heap File的O(n)。"
+            },
+            {
+                "number": 11,
+                "question": "Hashed files通过______函数将记录分配到不同的桶中。",
+                "answer": "哈希",
+                "explanation": "Hashed files通过哈希函数将记录分配到不同的桶（bucket）中，实现快速的查找、插入和删除操作。"
+            },
+            {
+                "number": 12,
+                "question": "当多个记录哈希到同一个桶时，会发生______（collision）。",
+                "answer": "冲突",
+                "explanation": "当多个记录哈希到同一个桶时，会发生冲突（collision），需要通过溢出页或链表等方式解决。"
+            },
+            {
+                "number": 13,
+                "question": "Bitmap索引主要用于______查询，通过位图运算（AND、OR）快速筛选满足条件的数据。",
+                "answer": "等值",
+                "explanation": "Bitmap索引主要用于等值查询，通过位图运算（AND、OR）快速筛选满足条件的数据。"
+            },
+            {
+                "number": 14,
+                "question": "B+树的一个重要特性是所有叶子节点都在同一______层级。",
+                "answer": "最低",
+                "explanation": "B+树的一个重要特性是所有叶子节点都在同一最低层级，这保证了查询性能的一致性。"
+            },
+            {
+                "number": 15,
+                "question": "B+树叶子节点的指针直接指向______，而非父节点或其他节点。",
+                "answer": "记录",
+                "explanation": "B+树叶子节点的指针直接指向键对应的记录，而非父节点或其他节点。"
+            },
+            {
+                "number": 16,
+                "question": "B+树非叶非根节点的最小键数量为⌈(n+1)/2⌉-1，这是B+树的______规则。",
+                "answer": "平衡",
+                "explanation": "B+树非叶非根节点的最小键数量为⌈(n+1)/2⌉-1，这是B+树的平衡规则。"
+            },
+            {
+                "number": 17,
+                "question": "B+树叶节点的最小键数量为⌊n/2⌋，这是B+树的______规则。",
+                "answer": "平衡",
+                "explanation": "B+树叶节点的最小键数量为⌊n/2⌋，这是B+树的平衡规则。"
+            },
+            {
+                "number": 18,
+                "question": "B+树根节点的最小键数量为______。",
+                "answer": "1",
+                "explanation": "B+树根节点的最小键数量为1，这是B+树的基本要求。"
+            },
+            {
+                "number": 19,
+                "question": "当B+树节点键数量大于n时，会进行______操作，将节点分成两个节点，并将中间键提升到父节点。",
+                "answer": "分裂",
+                "explanation": "当B+树节点键数量大于n时，会进行分裂操作，将节点分成两个节点，并将中间键提升到父节点。"
+            },
+            {
+                "number": 20,
+                "question": "B+树插入时，分裂节点时，第n/2下标的键会被提到______节点中，作为分隔键。",
+                "answer": "父",
+                "explanation": "B+树插入时，分裂节点时，第n/2下标的键会被提到父节点中，作为分隔键。"
+            },
+            {
+                "number": 21,
+                "question": "B+树删除操作中，当节点键数不足时，首先尝试从______节点借用键，以维持B+树的平衡。",
+                "answer": "兄弟",
+                "explanation": "B+树删除操作中，当节点键数不足时，首先尝试从兄弟节点借用键，以维持B+树的平衡。"
+            },
+            {
+                "number": 22,
+                "question": "B+树删除操作中，当叶子节点键数不足时，重新分配后父节点需要______分隔键以反映新的键范围。",
+                "answer": "更新",
+                "explanation": "B+树删除操作中，当叶子节点键数不足时，重新分配后父节点需要更新分隔键以反映新的键范围。"
+            },
+            {
+                "number": 23,
+                "question": "B+树中，非叶节点的指针数量等于键数量______1，因为每个键分隔两个子树。",
+                "answer": "+",
+                "explanation": "B+树中，非叶节点的指针数量等于键数量加1，因为每个键分隔两个子树。"
+            },
+            {
+                "number": 24,
+                "question": "B+树中，叶子节点的指针数量等于键数量，每个键对应一个指向______的指针。",
+                "answer": "记录",
+                "explanation": "B+树中，叶子节点的指针数量等于键数量，每个键对应一个指向记录的指针。"
+            },
+            {
+                "number": 25,
+                "question": "B+树的\"sequence pointer\"是指向下一个______节点的指针，用于支持范围查询的顺序访问。",
+                "answer": "叶子",
+                "explanation": "B+树的\"sequence pointer\"是指向下一个叶子节点的指针，用于支持范围查询的顺序访问。"
+            },
+            {
+                "number": 26,
+                "question": "Ordinary table的数据以无序集合（______）方式存储，这是最基础的表存储方式。",
+                "answer": "heap",
+                "explanation": "Ordinary table的数据以无序集合（heap）方式存储，这是最基础的表存储方式。"
+            },
+            {
+                "number": 27,
+                "question": "Partitioned table的主要目的是改善______和可管理性，通过将大表划分为更小、更易管理的片段。",
+                "answer": "性能",
+                "explanation": "Partitioned table的主要目的是改善性能和可管理性，通过将大表划分为更小、更易管理的片段。"
+            },
+            {
+                "number": 28,
+                "question": "Index-organized table (IOT)的数据按B-tree索引结构______存储，这使得主键查询非常高效。",
+                "answer": "排序",
+                "explanation": "IOT的数据（包括非键值）按B-tree索引结构排序存储，这使得主键查询非常高效。"
+            },
+            {
+                "number": 29,
+                "question": "Clustered table的特点是来自多个表的相关数据物理上______在一起，提高连接查询的性能。",
+                "answer": "存储",
+                "explanation": "Clustered table的特点是来自多个表的相关数据物理上存储在一起，提高连接查询的性能。"
+            },
+            {
+                "number": 30,
+                "question": "Range分区基于列值的______，例如按日期范围或数值范围进行分区。",
+                "answer": "范围",
+                "explanation": "Range分区基于列值的范围，例如按日期范围或数值范围进行分区。"
+            },
+            {
+                "number": 31,
+                "question": "Hash分区使用______函数来均匀分布行，确保数据在各个分区中均匀分布。",
+                "answer": "哈希",
+                "explanation": "Hash分区使用哈希函数来均匀分布行，确保数据在各个分区中均匀分布。"
+            },
+            {
+                "number": 32,
+                "question": "List分区基于离散值的显式______，例如按地区代码或状态值进行分区。",
+                "answer": "映射",
+                "explanation": "List分区基于离散值的显式映射，例如按地区代码或状态值进行分区。"
+            },
+            {
+                "number": 33,
+                "question": "Nested loop join的最佳情况开销是______ + B_S。",
+                "answer": "B_R",
+                "explanation": "Nested loop join的最佳情况是当外层关系R只有一条记录时，开销为B_R + B_S。"
+            },
+            {
+                "number": 34,
+                "question": "Nested loop join的最坏情况开销是T_R * B_S + ______。",
+                "answer": "B_R",
+                "explanation": "Nested loop join的最坏情况是当外层关系R的每条记录都要扫描整个内层关系S，开销为T_R * B_S + B_R。"
+            },
+            {
+                "number": 35,
+                "question": "Block nested loop join的最坏情况开销是B_R * B_S + ______。",
+                "answer": "B_R",
+                "explanation": "Block nested loop join的最坏情况是当内存只能容纳一个块时，开销为B_R * B_S + B_R。"
+            },
+            {
+                "number": 36,
+                "question": "Sort-Merge join的开销包括______成本加上读取两个关系的成本。",
+                "answer": "排序",
+                "explanation": "Sort-Merge join的开销包括排序成本加上读取两个关系的成本。"
+            },
+            {
+                "number": 37,
+                "question": "Indexed nested loop join的开销是外层关系的块数加上外层关系记录数乘以内层关系的______查找成本。",
+                "answer": "索引",
+                "explanation": "Indexed nested loop join的开销是外层关系的块数加上外层关系记录数乘以内层关系的索引查找成本。"
+            },
+            {
+                "number": 38,
+                "question": "Hash join的开销是构建哈希表和探测哈希表的成本，通常为2*(B_R+B_S) + ______。",
+                "answer": "(B_R+B_S)",
+                "explanation": "Hash join的开销是构建哈希表和探测哈希表的成本，通常为2*(B_R+B_S) + (B_R+B_S)。"
+            },
+            {
+                "number": 39,
+                "question": "笛卡尔积运算W=R*S的总元组数量为T(R) * ______。",
+                "answer": "T(S)",
+                "explanation": "笛卡尔积运算W=R*S的总元组数量为T(R) * T(S)。"
+            },
+            {
+                "number": 40,
+                "question": "笛卡尔积运算W=R*S的新单条记录长度为L(R) + ______。",
+                "answer": "L(S)",
+                "explanation": "笛卡尔积运算W=R*S的新单条记录长度为L(R) + L(S)，因为每条记录包含R和S的所有属性。"
+            },
+            {
+                "number": 41,
+                "question": "Oracle数据库当前默认且唯一支持的优化器是______ Optimizer (CBO)。",
+                "answer": "Cost-Based",
+                "explanation": "Oracle数据库当前默认且唯一支持的优化器是Cost-Based Optimizer (CBO)。"
+            },
+            {
+                "number": 42,
+                "question": "CBO基于______信息（statistics）估算不同执行计划的代价，选择代价最低的方案。",
+                "answer": "统计",
+                "explanation": "CBO基于统计信息（statistics）估算不同执行计划的代价，选择代价最低的方案。"
+            },
+            {
+                "number": 43,
+                "question": "`TABLE ACCESS FULL`表示对表进行______扫描，通常在没有合适索引时发生。",
+                "answer": "全表",
+                "explanation": "`TABLE ACCESS FULL`表示对表进行全表扫描，通常在没有合适索引时发生。"
+            },
+            {
+                "number": 44,
+                "question": "`INDEX UNIQUE SCAN`适用于等值查询（=），且使用______索引时。",
+                "answer": "唯一",
+                "explanation": "`INDEX UNIQUE SCAN`适用于等值查询（=），且使用唯一索引时。"
+            },
+            {
+                "number": 45,
+                "question": "`INDEX RANGE SCAN`适用于范围查询（>, <, BETWEEN, LIKE）或非唯一索引等值，可能返回______行。",
+                "answer": "多",
+                "explanation": "`INDEX RANGE SCAN`适用于范围查询或非唯一索引的等值查询，可能返回多行。"
+            },
+            {
+                "number": 46,
+                "question": "`SORT order by`表示SQL语句中使用了______子句，需要对结果进行排序。",
+                "answer": "ORDER BY",
+                "explanation": "`SORT order by`表示SQL语句中使用了ORDER BY子句，需要对结果进行排序。"
+            },
+            {
+                "number": 47,
+                "question": "`SORT group by`表示SQL语句中使用了______子句，需要对数据进行分组。",
+                "answer": "GROUP BY",
+                "explanation": "`SORT group by`表示SQL语句中使用了GROUP BY子句，需要对数据进行分组。"
+            },
+            {
+                "number": 48,
+                "question": "`FILTER`表示SQL语句中使用了______子句，对分组后的结果进行过滤。",
+                "answer": "HAVING",
+                "explanation": "`FILTER`表示SQL语句中使用了HAVING子句，对分组后的结果进行过滤。"
+            },
+            {
+                "number": 49,
+                "question": "`NESTED LOOPS`表示执行______连接操作，通常用于小表连接大表的场景。",
+                "answer": "多表",
+                "explanation": "`NESTED LOOPS`表示执行多表连接操作，通常用于小表连接大表的场景。"
+            },
+            {
+                "number": 50,
+                "question": "Information Rule规定所有数据（包括用户数据和元数据）必须存储在______格式中。",
+                "answer": "表",
+                "explanation": "Information Rule规定所有数据（包括用户数据和元数据）必须存储在表格式中。"
+            },
+            {
+                "number": 51,
+                "question": "Guaranteed Access Rule规定数据可以通过表名、主键（行值）和属性名（列值）的组合______访问。",
+                "answer": "逻辑",
+                "explanation": "Guaranteed Access Rule规定数据可以通过表名、主键（行值）和属性名（列值）的组合逻辑访问。"
+            },
+            {
+                "number": 52,
+                "question": "Systematic Treatment of NULL Values要求NULL值必须被______且统一地处理。",
+                "answer": "系统",
+                "explanation": "NULL值必须被系统且统一地处理，不能由应用程序随意解释。"
+            },
+            {
+                "number": 53,
+                "question": "Active Online Catalog要求数据库结构描述存储在在线目录（______）中，供授权用户访问。",
+                "answer": "数据字典",
+                "explanation": "Active Online Catalog要求数据库结构描述存储在在线目录（数据字典）中，供授权用户访问。"
+            },
+            {
+                "number": 54,
+                "question": "Codd第五律（Comprehensive Data Sub-Language Rule）要求语言必须支持数据定义、视图定义、数据操纵、完整性约束、______和事务边界等功能。",
+                "answer": "授权",
+                "explanation": "Codd第五律要求语言必须支持数据定义、视图定义、数据操纵、完整性约束、授权和事务边界等功能。"
+            },
+            {
+                "number": 55,
+                "question": "View Updating Rule要求理论上可更新的视图必须由______支持更新操作。",
+                "answer": "系统",
+                "explanation": "View Updating Rule要求理论上可更新的视图必须由系统支持更新操作。"
+            },
+            {
+                "number": 56,
+                "question": "Physical Data Independence要求物理数据独立于______，物理结构的修改不应影响应用程序。",
+                "answer": "应用程序",
+                "explanation": "Physical Data Independence要求物理数据独立于应用程序，物理结构的修改不应影响应用程序。"
+            },
+            {
+                "number": 57,
+                "question": "Logical Data Independence要求逻辑数据独立于用户______，逻辑结构的修改不应影响应用程序。",
+                "answer": "视图",
+                "explanation": "Logical Data Independence要求逻辑数据独立于用户视图，逻辑结构的修改不应影响应用程序。"
+            },
+            {
+                "number": 58,
+                "question": "Integrity Independence要求完整性约束必须定义在数据目录（catalog）中，而不是______代码中。",
+                "answer": "应用程序",
+                "explanation": "Integrity Independence要求完整性约束必须定义在数据目录（catalog）中，而不是应用程序代码中。"
+            },
+            {
+                "number": 59,
+                "question": "Distribution Independence要求最终用户不能察觉数据分布在多个______位置，感觉数据只在一个地方。",
+                "answer": "地理",
+                "explanation": "Distribution Independence要求最终用户不能察觉数据分布在多个地理位置，感觉数据只在一个地方。"
+            },
+            {
+                "number": 60,
+                "question": "Non-Subversion Rule要求低级别记录访问接口不能绕过系统的安全性和______约束。",
+                "answer": "完整性",
+                "explanation": "Non-Subversion Rule要求低级别记录访问接口不能绕过系统的安全性和完整性约束。"
+            },
+            {
+                "number": 61,
+                "question": "S锁（共享锁）用于______操作，允许多个事务同时读取同一数据。",
+                "answer": "读",
+                "explanation": "S锁（共享锁）用于读操作，允许多个事务同时读取同一数据。"
+            },
+            {
+                "number": 62,
+                "question": "X锁（排他锁）用于______操作，确保只有一个事务可以修改数据。",
+                "answer": "写",
+                "explanation": "X锁（排他锁）用于写操作，确保只有一个事务可以修改数据。"
+            },
+            {
+                "number": 63,
+                "question": "IS锁（意图共享锁）表示事务打算在子节点上加______锁，用于层次化锁机制。",
+                "answer": "S",
+                "explanation": "IS锁（意图共享锁）表示事务打算在子节点上加S锁，用于层次化锁机制。"
+            },
+            {
+                "number": 64,
+                "question": "IX锁（意图排他锁）表示事务打算在子节点上加______锁，用于层次化锁机制。",
+                "answer": "X",
+                "explanation": "IX锁（意图排他锁）表示事务打算在子节点上加X锁，用于层次化锁机制。"
+            },
+            {
+                "number": 65,
+                "question": "SIX锁（共享锁+意图排他）表示当前读取数据，但打算后续进行______操作。",
+                "answer": "写",
+                "explanation": "SIX锁（共享锁+意图排他）表示当前读取数据，但打算后续进行写操作。"
+            },
+            {
+                "number": 66,
+                "question": "IS锁与______锁不相容，因为X锁会阻止其他事务读取数据。",
+                "answer": "X",
+                "explanation": "IS锁与X锁不相容，因为X锁会阻止其他事务读取数据。"
+            },
+            {
+                "number": 67,
+                "question": "IX锁与S锁、X锁、SIX锁都不相容，因为它表示可能对子节点加______锁。",
+                "answer": "X",
+                "explanation": "IX锁与S锁、X锁、SIX锁都不相容，因为它表示可能对子节点加X锁。"
+            },
+            {
+                "number": 68,
+                "question": "S锁与IX锁、SIX锁、X锁都不相容，因为这些锁都可能影响读取操作的______性。",
+                "answer": "一致",
+                "explanation": "S锁与IX锁、SIX锁、X锁都不相容，因为这些锁都可能影响读取操作的一致性。"
+            },
+            {
+                "number": 69,
+                "question": "SIX锁与IS锁相容，但与其他锁（S、X、IX）都不______。",
+                "answer": "相容",
+                "explanation": "SIX锁与IS锁相容，但与其他锁（S、X、IX）都不相容。"
+            },
+            {
+                "number": 70,
+                "question": "X锁与所有其他锁都不相容，因为它需要______访问数据。",
+                "answer": "独占",
+                "explanation": "X锁与所有其他锁都不相容，因为它需要独占访问数据。"
+            },
+            {
+                "number": 71,
+                "question": "`<T, START>`记录表示事务T已经______执行。",
+                "answer": "开始",
+                "explanation": "`<T, START>`记录表示事务T已经开始执行。"
+            },
+            {
+                "number": 72,
+                "question": "`<T, COMMIT>`记录表示事务T已经成功完成，所有更改将______保存。",
+                "answer": "永久",
+                "explanation": "`<T, COMMIT>`记录表示事务T已经成功完成，所有更改将永久保存。"
+            },
+            {
+                "number": 73,
+                "question": "`<T, ABORT>`记录表示事务T无法成功完成，需要______所有更改。",
+                "answer": "回滚",
+                "explanation": "`<T, ABORT>`记录表示事务T无法成功完成，需要回滚所有更改。"
+            },
+            {
+                "number": 74,
+                "question": "`<T, X, v>`记录表示事务T已更改数据库元素X，其原值为v，用于______操作。",
+                "answer": "恢复",
+                "explanation": "`<T, X, v>`记录表示事务T已更改数据库元素X，其原值为v，用于恢复操作。"
+            },
+            {
+                "number": 75,
+                "question": "Redo Log处理所有已提交的事务，确保在系统崩溃后能______这些事务的更改。",
+                "answer": "重做",
+                "explanation": "Redo Log处理所有已提交的事务，确保在系统崩溃后能重做这些事务的更改。"
+            },
+            {
+                "number": 76,
+                "question": "Undo Log处理所有未完成的事务，确保在系统崩溃后能______这些事务的更改。",
+                "answer": "撤销",
+                "explanation": "Undo Log处理所有未完成的事务，确保在系统崩溃后能撤销这些事务的更改。"
+            },
+            {
+                "number": 77,
+                "question": "在Redo Log中，当遇到`<END CKPT>`记录时，redo操作不需要查看`<START CKPT>`记录之前的______，因为检查点之前的更改已刷新到磁盘。",
+                "answer": "内容",
+                "explanation": "在Redo Log中，当遇到`<END CKPT>`记录时，redo操作不需要查看`<START CKPT>`记录之前的内容，因为检查点之前的更改已刷新到磁盘。"
+            },
+            {
+                "number": 78,
+                "question": "在Undo Log中，当遇到`<END CKPT>`记录时，undo操作需要查看`<START CKPT>`记录之前的______，以找到可能已写入磁盘但需要撤销的操作。",
+                "answer": "内容",
+                "explanation": "在Undo Log中，当遇到`<END CKPT>`记录时，undo操作需要查看`<START CKPT>`记录之前的内容，以找到可能已写入磁盘但需要撤销的操作。"
+            },
+            {
+                "number": 79,
+                "question": "non-quiescent checkpoint的第一步是写入`<START CKPT(T1, …Tk)>`记录，其中T1,…Tk是活动的______事务。",
+                "answer": "未提交",
+                "explanation": "non-quiescent checkpoint的第一步是写入`<START CKPT(T1, …Tk)>`记录，其中T1,…Tk是活动的未提交事务。"
+            },
+            {
+                "number": 80,
+                "question": "Conflict equivalent schedules是指可以通过一系列非冲突的相邻操作______转换的调度。",
+                "answer": "交换",
+                "explanation": "Conflict equivalent schedules是指可以通过一系列非冲突的相邻操作交换转换的调度。"
+            }
+        ];
+
+        // 初始化测验
+        function initQuiz() {
+            const quizContainer = document.getElementById('quizContainer');
+            quizContainer.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                questionDiv.innerHTML = `
+                    <div class="question-number">第 ${q.number} 题</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="blank-container">
+                        <input type="text" class="blank" id="answer-${index}" placeholder="请输入答案">
+                    </div>
+                    <div class="explanation" id="explanation-${index}">${q.explanation}</div>
+                `;
+                
+                quizContainer.appendChild(questionDiv);
+            });
+            
+            // 添加事件监听器
+            document.querySelectorAll('.blank').forEach(input => {
+                input.addEventListener('input', function() {
+                    const questionIndex = parseInt(this.id.replace('answer-', ''));
+                    const explanationDiv = document.getElementById(`explanation-${questionIndex}`);
+                    explanationDiv.classList.remove('show');
+                });
+            });
+        }
+
+        // 提交测验
+        function submitQuiz() {
+            const selectedAnswers = [];
+            let correctCount = 0;
+            
+            questions.forEach((q, index) => {
+                const answerInput = document.getElementById(`answer-${index}`);
+                const userAnswer = answerInput.value.trim();
+                const explanationDiv = document.getElementById(`explanation-${index}`);
+                
+                // 清除之前的样式
+                answerInput.className = 'blank';
+                
+                // 检查答案是否正确（忽略大小写和空格）
+                const isCorrect = userAnswer.toLowerCase().replace(/\s/g, '') === q.answer.toLowerCase().replace(/\s/g, '');
+                
+                if (isCorrect) {
+                    answerInput.className += ' correct';
+                    correctCount++;
+                } else {
+                    answerInput.className += ' incorrect';
+                    answerInput.value = q.answer; // 显示正确答案
+                }
+                
+                // 显示解析
+                explanationDiv.classList.add('show');
+            });
+            
+            // 显示结果
+            const resultsDiv = document.getElementById('results');
+            const scoreDiv = document.getElementById('score');
+            const feedbackDiv = document.getElementById('feedback');
+            
+            const percentage = Math.round((correctCount / questions.length) * 100);
+            scoreDiv.textContent = `得分：${correctCount}/${questions.length} (${percentage}%)`;
+            
+            // 根据分数给出反馈
+            if (percentage >= 90) {
+                feedbackDiv.textContent = "优秀！您对数据库知识掌握得非常扎实。";
+                feedbackDiv.style.color = "#27ae60";
+            } else if (percentage >= 80) {
+                feedbackDiv.textContent = "良好！您对数据库知识有很好的理解。";
+                feedbackDiv.style.color = "#2980b9";
+            } else if (percentage >= 70) {
+                feedbackDiv.textContent = "合格！您对数据库知识有一定了解，但还有提升空间。";
+                feedbackDiv.style.color = "#f39c12";
+            } else {
+                feedbackDiv.textContent = "需要加强！建议复习数据库核心概念，特别是Codd第五律相关内容。";
+                feedbackDiv.style.color = "#e74c3c";
+            }
+            
+            resultsDiv.style.display = 'block';
+            
+            // 更新进度条
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '100%';
+            
+            // 禁用提交按钮
+            document.getElementById('submitBtn').disabled = true;
+        }
+
+        // 重置测验
+        function resetQuiz() {
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('submitBtn').disabled = false;
+            
+            // 清除所有输入
+            document.querySelectorAll('.blank').forEach(input => {
+                input.value = '';
+                input.className = 'blank';
+            });
+            
+            // 隐藏所有解析
+            document.querySelectorAll('.explanation').forEach(explanation => {
+                explanation.classList.remove('show');
+            });
+            
+            // 重置进度条
+            document.getElementById('progressBar').style.width = '0%';
+        }
+
+        // 页面加载完成后初始化测验
+        document.addEventListener('DOMContentLoaded', function() {
+            initQuiz();
+            
+            // 添加进度条动画
+            const progressBar = document.getElementById('progressBar');
+            let progress = 0;
+            const interval = setInterval(() => {
+                if (progress < 100) {
+                    progress += 0.5;
+                    progressBar.style.width = progress + '%';
+                } else {
+                    clearInterval(interval);
+                }
+            }, 50);
+        });
+    </script>
+</body>
+</html>
