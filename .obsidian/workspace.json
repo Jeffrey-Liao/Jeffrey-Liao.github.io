@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "C/计算机系统.md",
+                "file": "C/数据类型.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "计算机系统"
+              "title": "数据类型"
             }
           },
           {
@@ -215,17 +215,18 @@
   "active": "552c02d5db31877b",
   "lastOpenFiles": [
     "C/结构体和类设计.md",
+    "C/计算机系统.md",
+    "C/语言规则.md",
+    "C/数据类型.md",
+    "JAVA/JAVA.md",
     "C/程序执行结构.md",
     "C/编译与运行.md",
     "_coverpage.md",
     "OOP/final.md",
-    "C/数据类型.md",
     "OOP",
     "C/C.md",
-    "C/语言规则.md",
     "C/pic/Pasted image 20260117194944.png",
     "数据库2/重点.md",
-    "C/计算机系统.md",
     "C/常见库函数.md",
     "C/pic/Pasted image 20260116095442.png",
     "C/pic/Pasted image 20260116095353.png",
@@ -249,7 +250,6 @@
     "数据库2/Oracle体系结构.md",
     "_navbar.md",
     "_sidebar.md",
-    "JAVA/JAVA.md",
     "_404.md",
     "().md",
     "Format.md",
