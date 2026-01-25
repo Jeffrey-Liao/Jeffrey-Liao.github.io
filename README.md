@@ -36,8 +36,8 @@
 - ### [算法](/ads/algorithm.md)
 
 ---
-## 康的读书笔记
-- ### [康的个人网站](https://m4n1pulate.github.io/)
+## 读书笔记
+- ### [个人网站](https://m4n1pulate.github.io/)
 - ## [C++程序设计语言]()
 - ## [系统架构师教程]()
 - ## [数据库系统]()
