@@ -1,4 +1,4 @@
-# ab 1 – Introduction & Computer Hardware
+# lab 1 – Introduction & Computer Hardware
 
 📚 来源：
 
